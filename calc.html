@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Priskalkylator</title> 
+    <title>Priskalkylator</title>
     <style>
-        /* Namespace all styles to #price-calculator-wrapper */ 
+        /* Namespace all styles to #price-calculator-wrapper */
         #price-calculator-wrapper {
             font-family: 'Inter', Arial, sans-serif !important;
             background-color: #fff;
@@ -182,11 +182,11 @@
                 </select>
             </div>
 
-            <!-- Membership Dropdown (kept in English) -->
+            <!-- Membership Dropdown (label in Swedish, options in English) -->
             <div class="form-group">
-                <label for="membership">Select Membership</label>
+                <label for="membership">Välj medlemskap</label>
                 <select id="membership" name="membership" required>
-                    <option value="">-- Select Membership --</option>
+                    <option value="">-- Välj medlemskap --</option>
                     <option value="unlimited-boating">Unlimited Boating</option>
                     <option value="on-demand-boating">On Demand Boating</option>
                 </select>
@@ -278,7 +278,7 @@
             const confirmation = wrapper.querySelector("#confirmation");
             const contactForm = wrapper.querySelector('#contact-form');
 
-            // Price data remains the same
+            // Price data
             const prices = {
                 "palma-de-mallorca": {
                     "unlimited-boating": {
@@ -439,7 +439,7 @@
                 }
             };
 
-            // Currency data remains the same
+            // Currency data
             const currencies = {
                 "palma-de-mallorca": "EUR",
                 "stockholm": "SEK",
@@ -499,7 +499,6 @@
 
                 let additionalMessage = "";
                 if (packageSelected === "PayGo-membership") {
-                    // In Swedish
                     additionalMessage = "Priset för PayGo-medlemsavgiften gäller alla båtkategorier och inkluderar onboarding.";
                 } else if (packageSelected === "PayGo-package") {
                     additionalMessage = "Priset för PayGo-medlemskap gäller alla båtkategorier. Paketpriset för båtutflykter inkluderar medlemsavgift och fri onboarding.";
@@ -553,7 +552,6 @@
                         categoryGroup.style.display = "block";
                         const availableCategories = prices[location][membership];
                         for (const category in availableCategories) {
-                            // Create option, using the helper for Swedish display name
                             const option = document.createElement("option");
                             option.value = category;
                             option.textContent = getCategoryDisplayName(category);
@@ -615,7 +613,7 @@
 
             const submitButton = wrapper.querySelector("#submit-button");
 
-            // When user clicks "Skicka" (Submit)
+            // When user clicks "Skicka"
             submitButton.addEventListener("click", function () {
                 const name = wrapper.querySelector("#name").value;
                 const email = wrapper.querySelector("#email").value;
