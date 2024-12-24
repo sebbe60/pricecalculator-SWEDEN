@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Prisräknare</title> 
+    <title>Priskalkylator</title> 
     <style>
         /* Namespace all styles to #price-calculator-wrapper */ 
         #price-calculator-wrapper {
@@ -182,21 +182,21 @@
                 </select>
             </div>
 
-            <!-- Membership Dropdown -->
+            <!-- Membership Dropdown (kept in English) -->
             <div class="form-group">
-                <label for="membership">Välj medlemskap</label>
+                <label for="membership">Select Membership</label>
                 <select id="membership" name="membership" required>
-                    <option value="">-- Välj medlemskap --</option>
-                    <option value="unlimited-boating">Obegränsat båtåkande</option>
-                    <option value="on-demand-boating">Båtåkande på begäran</option>
+                    <option value="">-- Select Membership --</option>
+                    <option value="unlimited-boating">Unlimited Boating</option>
+                    <option value="on-demand-boating">On Demand Boating</option>
                 </select>
             </div>
 
             <!-- Category Dropdown -->
             <div class="form-group" id="category-group" style="display:none;">
-                <label for="category">Välj båt kategori</label>
+                <label for="category">Välj båtkategori</label>
                 <select id="category" name="category" required>
-                    <option value="">-- Välj båt kategori --</option>
+                    <option value="">-- Välj båtkategori --</option>
                 </select>
             </div>
 
@@ -278,6 +278,7 @@
             const confirmation = wrapper.querySelector("#confirmation");
             const contactForm = wrapper.querySelector('#contact-form');
 
+            // Price data remains the same
             const prices = {
                 "palma-de-mallorca": {
                     "unlimited-boating": {
@@ -438,6 +439,7 @@
                 }
             };
 
+            // Currency data remains the same
             const currencies = {
                 "palma-de-mallorca": "EUR",
                 "stockholm": "SEK",
@@ -456,12 +458,30 @@
                 "bonaire": "USD"
             };
 
+            // Helper: format the number with spaces
             function formatNumberWithSpaces(number) {
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             }
 
+            // Helper: map internal category codes to Swedish text
+            function getCategoryDisplayName(category) {
+                switch (category) {
+                    case "boat-category-a":
+                        return "Båtkategori A";
+                    case "boat-category-b":
+                        return "Båtkategori B";
+                    case "boat-category-c":
+                        return "Båtkategori C";
+                    case "boat-category-d":
+                        return "Båtkategori D";
+                    default:
+                        // For any unexpected category name, just prettify
+                        return category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+                }
+            }
+
+            // Provide a friendly display name for packages in Swedish
             function getPackageDisplayName(pkg) {
-                // Provide a friendly display name for packages in Swedish
                 if (pkg === "PayGo-membership") {
                     return "Endast PayGo-medlemskap";
                 } else if (pkg === "PayGo-package") {
@@ -473,20 +493,17 @@
 
             function updateOnDemandMessage(packageSelected) {
                 onDemandMessage.style.display = "none";
-
                 if (!packageSelected) {
                     return;
                 }
 
                 let additionalMessage = "";
                 if (packageSelected === "PayGo-membership") {
-                    // Full original text for PayGo Only Membership, now in Swedish
-                    additionalMessage = "Priset för PayGo-medlemsavgiften gäller alla båt kategorier och inkluderar onboarding.";
+                    // In Swedish
+                    additionalMessage = "Priset för PayGo-medlemsavgiften gäller alla båtkategorier och inkluderar onboarding.";
                 } else if (packageSelected === "PayGo-package") {
-                    // Full text for PayGo Package, now in Swedish
-                    additionalMessage = "Priset för PayGo-medlemskap gäller alla båt kategorier. Paketpriset för båtutflykter inkluderar medlemsavgift och fri onboarding.";
+                    additionalMessage = "Priset för PayGo-medlemskap gäller alla båtkategorier. Paketpriset för båtutflykter inkluderar medlemsavgift och fri onboarding.";
                 }
-
                 onDemandMessage.innerHTML = additionalMessage;
                 onDemandMessage.style.display = additionalMessage ? "block" : "none";
             }
@@ -499,7 +516,7 @@
                 unlimitedMessage.style.display = "none";
                 onDemandMessage.style.display = "none";
 
-                categorySelect.innerHTML = '<option value="">-- Välj båt kategori --</option>';
+                categorySelect.innerHTML = '<option value="">-- Välj båtkategori --</option>';
                 packageSelect.innerHTML = '<option value="">-- Välj paket --</option>';
                 categoryGroup.style.display = "none";
                 packageGroup.style.display = "none";
@@ -536,9 +553,10 @@
                         categoryGroup.style.display = "block";
                         const availableCategories = prices[location][membership];
                         for (const category in availableCategories) {
+                            // Create option, using the helper for Swedish display name
                             const option = document.createElement("option");
                             option.value = category;
-                            option.textContent = category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
+                            option.textContent = getCategoryDisplayName(category);
                             categorySelect.appendChild(option);
                         }
                     } else {
@@ -597,6 +615,7 @@
 
             const submitButton = wrapper.querySelector("#submit-button");
 
+            // When user clicks "Skicka" (Submit)
             submitButton.addEventListener("click", function () {
                 const name = wrapper.querySelector("#name").value;
                 const email = wrapper.querySelector("#email").value;
@@ -630,6 +649,7 @@
                 );
             });
 
+            // Event listeners
             locationSelect.addEventListener('change', updateCategories);
             membershipSelect.addEventListener('change', updateCategories);
             categorySelect.addEventListener('change', updatePrice);
