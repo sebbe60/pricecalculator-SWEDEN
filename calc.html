@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Price Calculator</title> 
+    <title>Prisräknare</title> 
     <style>
         /* Namespace all styles to #price-calculator-wrapper */ 
         #price-calculator-wrapper {
@@ -156,27 +156,27 @@
 <body>
 
     <div id="price-calculator-wrapper">
-        <h2>Price Calculator</h2>
+        <h2>Prisräknare</h2>
 
         <div id="price-calculator-form">
             <!-- Location Dropdown -->
             <div class="form-group">
-                <label for="location">Select Home Location</label>
+                <label for="location">Välj hemort</label>
                 <select id="location" name="location" required>
-                    <option value="">-- Select Home Location --</option>
+                    <option value="">-- Välj hemort --</option>
                     <option value="palma-de-mallorca">Palma de Mallorca</option>
                     <option value="stockholm">Stockholm</option>
                     <option value="marbella">Marbella</option>
                     <option value="menorca">Menorca</option>
                     <option value="malta">Malta</option>
-                    <option value="cancun">Cancun</option>
+                    <option value="cancun">Cancún</option>
                     <option value="ibiza">Ibiza</option>
                     <option value="costa-brava">Costa Brava</option>
-                    <option value="st-tropez">St Tropez</option>
-                    <option value="corsica">Corsica</option>
+                    <option value="st-tropez">St. Tropez</option>
+                    <option value="corsica">Korsika</option>
                     <option value="la-spezia">La Spezia</option>
                     <option value="jersey">Jersey</option>
-                    <option value="uk">UK</option>
+                    <option value="uk">Storbritannien</option>
                     <option value="amsterdam">Amsterdam</option>
                     <option value="bonaire">Bonaire</option>
                 </select>
@@ -184,27 +184,27 @@
 
             <!-- Membership Dropdown -->
             <div class="form-group">
-                <label for="membership">Select Membership</label>
+                <label for="membership">Välj medlemskap</label>
                 <select id="membership" name="membership" required>
-                    <option value="">-- Select Membership --</option>
-                    <option value="unlimited-boating">Unlimited Boating</option>
-                    <option value="on-demand-boating">On Demand Boating</option>
+                    <option value="">-- Välj medlemskap --</option>
+                    <option value="unlimited-boating">Obegränsat båtåkande</option>
+                    <option value="on-demand-boating">Båtåkande på begäran</option>
                 </select>
             </div>
 
             <!-- Category Dropdown -->
             <div class="form-group" id="category-group" style="display:none;">
-                <label for="category">Select Boat Category</label>
+                <label for="category">Välj båt kategori</label>
                 <select id="category" name="category" required>
-                    <option value="">-- Select Category --</option>
+                    <option value="">-- Välj båt kategori --</option>
                 </select>
             </div>
 
             <!-- Package Dropdown -->
             <div class="form-group" id="package-group" style="display:none;">
-                <label for="package">Select Package</label>
+                <label for="package">Välj paket</label>
                 <select id="package" name="package" required>
-                    <option value="">-- Select Package --</option>
+                    <option value="">-- Välj paket --</option>
                     <!-- Options will be populated dynamically -->
                 </select>
             </div>
@@ -216,7 +216,7 @@
             <!-- Price Display -->
             <div id="price-display" style="display:none;">
                 <div class="price-row">
-                    <span>Price:</span>
+                    <span>Pris:</span>
                     <span><span id="price"></span> <span id="currency"></span></span>
                 </div>
             </div>
@@ -229,32 +229,32 @@
                     }
                 </style>
                 <br>
-                <h3 id="specific-h3">Looking for your dream boating life? Get in touch!</h3>
+                <h3 id="specific-h3">Letar du efter ditt drömliv på sjön? Hör av dig!</h3>
 
                 <br>
                 <div class="form-group">
-                    <label for="name">Name</label>
+                    <label for="name">Namn</label>
                     <input type="text" id="name" name="name" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="email">Email</label>
+                    <label for="email">E-post</label>
                     <input type="email" id="email" name="email" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="message">Optional Message</label>
+                    <label for="message">Valfritt meddelande</label>
                     <textarea id="message" name="message"></textarea>
                 </div>
 
                 <!-- Submit Button -->
-                <button type="button" id="submit-button">Submit</button>
+                <button type="button" id="submit-button">Skicka</button>
             </div>
 
             <!-- Confirmation Message -->
             <div id="confirmation" style="display:none;">
-                <h2>Thank You!</h2>
-                <p>Thank you for your interest in Agapi Boat Club.</p>
+                <h2>Tack!</h2>
+                <p>Tack för ditt intresse för Agapi Boat Club.</p>
             </div>
         </div>
     </div>
@@ -461,11 +461,11 @@
             }
 
             function getPackageDisplayName(pkg) {
-                // Provide a friendly display name for packages
+                // Provide a friendly display name for packages in Swedish
                 if (pkg === "PayGo-membership") {
-                    return "PayGo Only Membership";
+                    return "Endast PayGo-medlemskap";
                 } else if (pkg === "PayGo-package") {
-                    return "PayGo Package";
+                    return "PayGo-paket";
                 } else {
                     return pkg.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
                 }
@@ -480,11 +480,11 @@
 
                 let additionalMessage = "";
                 if (packageSelected === "PayGo-membership") {
-                    // Full original text for PayGo Only Membership
-                    additionalMessage = "Price for PayGo Membership fee applies to all Boat Categories and includes Onboarding.";
+                    // Full original text for PayGo Only Membership, now in Swedish
+                    additionalMessage = "Priset för PayGo-medlemsavgiften gäller alla båt kategorier och inkluderar onboarding.";
                 } else if (packageSelected === "PayGo-package") {
-                    // Full text for PayGo Package
-                    additionalMessage = "Price for PayGo memberships applies to all Boat Categories. Price package for boat trips including Membership fee and Onboarding free of charge.";
+                    // Full text for PayGo Package, now in Swedish
+                    additionalMessage = "Priset för PayGo-medlemskap gäller alla båt kategorier. Paketpriset för båtutflykter inkluderar medlemsavgift och fri onboarding.";
                 }
 
                 onDemandMessage.innerHTML = additionalMessage;
@@ -499,8 +499,8 @@
                 unlimitedMessage.style.display = "none";
                 onDemandMessage.style.display = "none";
 
-                categorySelect.innerHTML = '<option value="">-- Select Category --</option>';
-                packageSelect.innerHTML = '<option value="">-- Select Package --</option>';
+                categorySelect.innerHTML = '<option value="">-- Välj båt kategori --</option>';
+                packageSelect.innerHTML = '<option value="">-- Välj paket --</option>';
                 categoryGroup.style.display = "none";
                 packageGroup.style.display = "none";
                 priceDisplay.style.display = "none";
@@ -528,9 +528,9 @@
                         packageGroup.style.display = "none";
                     }
                 } else if (membership === "unlimited-boating") {
-                    // Show unlimited message
+                    // Show unlimited message in Swedish
                     unlimitedMessage.style.display = "block";
-                    unlimitedMessage.innerHTML = "We offer special prices for Dual-homes, Only summer, Only weekdays or Off-season.";
+                    unlimitedMessage.innerHTML = "Vi erbjuder specialpriser för dubbelhem, endast sommar, endast vardagar eller lågsäsong.";
                     // Show category group if options are available
                     if (prices[location]?.[membership]) {
                         categoryGroup.style.display = "block";
@@ -559,7 +559,7 @@
                         updateOnDemandMessage(selectedPackage);
                         const price = prices[location]?.[membership]?.[selectedPackage];
                         if (price === null) {
-                            priceSpan.textContent = "Prices for 2025 available soon";
+                            priceSpan.textContent = "Priser för 2025 kommer snart";
                             currencySpan.textContent = "";
                             priceDisplay.style.display = 'block';
                         } else if (price) {
@@ -577,7 +577,7 @@
                     if (location && category) {
                         const price = prices[location]?.[membership]?.[category];
                         if (price === null) {
-                            priceSpan.textContent = "Prices for 2025 available soon";
+                            priceSpan.textContent = "Priser för 2025 kommer snart";
                             currencySpan.textContent = "";
                             priceDisplay.style.display = 'block';
                         } else if (price) {
@@ -625,7 +625,7 @@
                         confirmation.style.display = 'block';
                     },
                     function (error) {
-                        console.error("Failed to send email:", error);
+                        console.error("Misslyckades att skicka e-post:", error);
                     }
                 );
             });
