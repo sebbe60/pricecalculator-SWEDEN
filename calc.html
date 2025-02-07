@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Priskalkylator</title>
+    <title>Prisräknare</title> 
     <style>
-        /* Namespace all styles to #price-calculator-wrapper */
+        /* Namespace all styles to #price-calculator-wrapper */ 
         #price-calculator-wrapper {
             font-family: 'Inter', Arial, sans-serif !important;
             background-color: #fff;
@@ -156,7 +156,7 @@
 <body>
 
     <div id="price-calculator-wrapper">
-        <h2>Priskalkylator</h2>
+        <h2>Prisräknare</h2>
 
         <div id="price-calculator-form">
             <!-- Location Dropdown -->
@@ -172,23 +172,23 @@
                     <option value="cancun">Cancún</option>
                     <option value="ibiza">Ibiza</option>
                     <option value="costa-brava">Costa Brava</option>
-                    <option value="st-tropez">St. Tropez</option>
-                    <option value="corsica">Korsika</option>
+                    <option value="st-tropez">St Tropez</option>
+                    <option value="corsica">Corsica</option>
                     <option value="la-spezia">La Spezia</option>
                     <option value="jersey">Jersey</option>
-                    <option value="uk">Storbritannien</option>
+                    <option value="uk">UK</option>
                     <option value="amsterdam">Amsterdam</option>
                     <option value="bonaire">Bonaire</option>
                 </select>
             </div>
 
-            <!-- Membership Dropdown (label in Swedish, options in English) -->
+            <!-- Membership Dropdown -->
             <div class="form-group">
                 <label for="membership">Välj medlemskap</label>
                 <select id="membership" name="membership" required>
                     <option value="">-- Välj medlemskap --</option>
-                    <option value="unlimited-boating">Unlimited Boating</option>
-                    <option value="on-demand-boating">On Demand Boating</option>
+                    <option value="unlimited-boating">Obegränsad båttillgång</option>
+                    <option value="on-demand-boating">Båtturer på begäran</option>
                 </select>
             </div>
 
@@ -196,7 +196,7 @@
             <div class="form-group" id="category-group" style="display:none;">
                 <label for="category">Välj båtkategori</label>
                 <select id="category" name="category" required>
-                    <option value="">-- Välj båtkategori --</option>
+                    <option value="">-- Välj kategori --</option>
                 </select>
             </div>
 
@@ -229,17 +229,22 @@
                     }
                 </style>
                 <br>
-                <h3 id="specific-h3">Letar du efter ditt drömliv på sjön? Hör av dig!</h3>
+                <h3 id="specific-h3">Drömmer du om ditt drömbåtliv? Kontakta oss!</h3>
+
+                <!-- Hidden Field for Lead Source -->
+                <input type="hidden" id="lead-source" name="lead_source" value="Configurator">
 
                 <br>
                 <div class="form-group">
                     <label for="name">Namn</label>
                     <input type="text" id="name" name="name" required>
+                     <span id="name-error" style="color: red; font-size: 0.85rem; display: none;">Obligatoriskt</span>
                 </div>
 
                 <div class="form-group">
                     <label for="email">E-post</label>
                     <input type="email" id="email" name="email" required>
+                     <span id="email-error" style="color: red; font-size: 0.85rem; display: none;">Obligatoriskt</span>
                 </div>
 
                 <div class="form-group">
@@ -277,8 +282,8 @@
             const unlimitedMessage = wrapper.querySelector('#unlimited-message');
             const confirmation = wrapper.querySelector("#confirmation");
             const contactForm = wrapper.querySelector('#contact-form');
+            const leadSourceField = wrapper.querySelector('#lead-source');
 
-            // Price data
             const prices = {
                 "palma-de-mallorca": {
                     "unlimited-boating": {
@@ -439,7 +444,6 @@
                 }
             };
 
-            // Currency data
             const currencies = {
                 "palma-de-mallorca": "EUR",
                 "stockholm": "SEK",
@@ -458,30 +462,12 @@
                 "bonaire": "USD"
             };
 
-            // Helper: format the number with spaces
             function formatNumberWithSpaces(number) {
                 return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
             }
 
-            // Helper: map internal category codes to Swedish text
-            function getCategoryDisplayName(category) {
-                switch (category) {
-                    case "boat-category-a":
-                        return "Båtkategori A";
-                    case "boat-category-b":
-                        return "Båtkategori B";
-                    case "boat-category-c":
-                        return "Båtkategori C";
-                    case "boat-category-d":
-                        return "Båtkategori D";
-                    default:
-                        // For any unexpected category name, just prettify
-                        return category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
-                }
-            }
-
-            // Provide a friendly display name for packages in Swedish
             function getPackageDisplayName(pkg) {
+                // Provide a friendly display name for packages
                 if (pkg === "PayGo-membership") {
                     return "Endast PayGo-medlemskap";
                 } else if (pkg === "PayGo-package") {
@@ -493,16 +479,18 @@
 
             function updateOnDemandMessage(packageSelected) {
                 onDemandMessage.style.display = "none";
+
                 if (!packageSelected) {
                     return;
                 }
 
                 let additionalMessage = "";
                 if (packageSelected === "PayGo-membership") {
-                    additionalMessage = "Priset för PayGo-medlemsavgiften gäller alla båtkategorier och inkluderar onboarding.";
+                    additionalMessage = "Priset för PayGo-medlemsavgiften gäller för alla båtkategorier och inkluderar introduktion.";
                 } else if (packageSelected === "PayGo-package") {
-                    additionalMessage = "Priset för PayGo-medlemskap gäller alla båtkategorier. Paketpriset för båtutflykter inkluderar medlemsavgift och fri onboarding.";
+                    additionalMessage = "Priset för PayGo-medlemskap gäller för alla båtkategorier. Paketet för båtturer inkluderar medlemsavgift och gratis introduktion.";
                 }
+
                 onDemandMessage.innerHTML = additionalMessage;
                 onDemandMessage.style.display = additionalMessage ? "block" : "none";
             }
@@ -515,7 +503,7 @@
                 unlimitedMessage.style.display = "none";
                 onDemandMessage.style.display = "none";
 
-                categorySelect.innerHTML = '<option value="">-- Välj båtkategori --</option>';
+                categorySelect.innerHTML = '<option value="">-- Välj kategori --</option>';
                 packageSelect.innerHTML = '<option value="">-- Välj paket --</option>';
                 categoryGroup.style.display = "none";
                 packageGroup.style.display = "none";
@@ -544,9 +532,9 @@
                         packageGroup.style.display = "none";
                     }
                 } else if (membership === "unlimited-boating") {
-                    // Show unlimited message in Swedish
+                    // Show unlimited message
                     unlimitedMessage.style.display = "block";
-                    unlimitedMessage.innerHTML = "Vi erbjuder specialpriser för dubbelhem, endast sommar, endast vardagar eller lågsäsong.";
+                    unlimitedMessage.innerHTML = "Vi erbjuder specialpriser för dubbelhem, endast under sommaren, endast på vardagar eller under lågsäsong.";
                     // Show category group if options are available
                     if (prices[location]?.[membership]) {
                         categoryGroup.style.display = "block";
@@ -554,7 +542,7 @@
                         for (const category in availableCategories) {
                             const option = document.createElement("option");
                             option.value = category;
-                            option.textContent = getCategoryDisplayName(category);
+                            option.textContent = category.replace(/-/g, ' ').replace(/\b\w/g, char => char.toUpperCase());
                             categorySelect.appendChild(option);
                         }
                     } else {
@@ -613,41 +601,65 @@
 
             const submitButton = wrapper.querySelector("#submit-button");
 
-            // When user clicks "Skicka"
             submitButton.addEventListener("click", function () {
-                const name = wrapper.querySelector("#name").value;
-                const email = wrapper.querySelector("#email").value;
-                const message = wrapper.querySelector("#message").value;
-                const location = locationSelect.value;
-                const membership = membershipSelect.value;
-                const category = categorySelect.value || "N/A";
-                const packageSelected = packageSelect.value || "N/A";
-                const price = priceSpan.textContent || "N/A";
-                const currency = currencySpan.textContent || "N/A";
+                const nameField = wrapper.querySelector("#name");
+                const emailField = wrapper.querySelector("#email");
+                const messageField = wrapper.querySelector("#message");
+                const locationField = wrapper.querySelector("#location");
+                const membershipField = wrapper.querySelector("#membership");
+                const categoryField = wrapper.querySelector("#category");
+                const packageField = wrapper.querySelector("#package");
+                const priceField = priceSpan.textContent;
+                const currencyField = currencySpan.textContent;
+                const leadSourceField = wrapper.querySelector("#lead-source");
 
-                emailjs.send("service_bp6qapf", "template_oymlxox", {
-                    name,
-                    email,
-                    message,
-                    location,
-                    membership,
-                    category,
-                    package: packageSelected,
-                    price: `${price} ${currency}`
-                }).then(
+                // Basic validation
+                if (!nameField.value.trim() || !emailField.value.trim()) {
+                    // Display errors (optional inline error handling can be added here)
+                    return;
+                }
+
+                // Data to send
+                const formData = {
+                    name: nameField.value.trim(),
+                    email: emailField.value.trim(),
+                    message: messageField ? messageField.value.trim() : "",
+                    location: locationField.value,
+                    membership: membershipField.value,
+                    category: categoryField ? categoryField.value : "",
+                    package: packageField ? packageField.value : "",
+                    price: priceField ? priceField : "",
+                    currency: currencyField ? currencyField : "",
+                    lead_source: leadSourceField.value
+                };
+
+                // Send to Make.com webhook
+                fetch("https://hook.eu2.make.com/yh6gymw330shtcvjgiszzw1iyyozezbl", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(formData)
+                }).then(response => {
+                    if (response.ok) {
+                        console.log("Formulärdata skickades till Make.com framgångsrikt.");
+                    } else {
+                        console.error("Misslyckades med att skicka formulärdata till Make.com.");
+                    }
+                }).catch(error => console.error("Fel vid skickande av data till Make.com:", error));
+
+                // Continue with EmailJS logic
+                emailjs.send("service_bp6qapf", "template_oymlxox", formData).then(
                     function () {
-                        // Hide the contact form
                         contactForm.style.display = 'none';
-                        // Display the confirmation message
                         confirmation.style.display = 'block';
                     },
                     function (error) {
-                        console.error("Misslyckades att skicka e-post:", error);
+                        console.error("Misslyckades med att skicka e-post:", error);
                     }
                 );
             });
 
-            // Event listeners
             locationSelect.addEventListener('change', updateCategories);
             membershipSelect.addEventListener('change', updateCategories);
             categorySelect.addEventListener('change', updatePrice);
